@@ -1,0 +1,13 @@
+# Ignore compiled files
+target/
+
+# Ignore configuration files
+Cargo.lock
+.env
+
+# Ignore generated documentation
+doc/
+
+# Ignore hidden temporary files
+**/*.swp
+**/*.swo
