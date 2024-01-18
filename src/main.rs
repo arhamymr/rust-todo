@@ -47,8 +47,8 @@ fn mark_todo_as_done(todo: &mut Vec<TodoItem>) {
 
     let input: usize = input.trim().parse().unwrap();
 
-    if let Some(TodoItem) = todo.get_mut(input - 1) {
-        TodoItem.completed = true;
+    if let Some(todo_item) = todo.get_mut(input - 1) {
+        todo_item.completed = true;
         println!("Successfully edit todo");
     } else {
         println!("Todo with number {} is not found", input);
