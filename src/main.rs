@@ -1,5 +1,4 @@
-use std::fs::File;
-use std::io::{self, BufRead, BufReader}; // Add missing import statement // Add missing import statement
+use std::io::{self, BufRead};
 
 fn input_user() -> String {
     let mut input_user = String::new();
@@ -9,16 +8,8 @@ fn input_user() -> String {
     input_user
 }
 
-fn count_todo(file: &File) -> String {
-    let mut count = 0;
-    let reader = BufReader::new(file); // Call expect method on BufReader::new
-
-    // loop through each line
-    for (_line_number, _line) in reader.lines().enumerate() {
-        count += 1;
-    }
-
-    return count.to_string();
+fn count_todo(todo: &Vec<TodoItem>) {
+    println!("{}", todo.len())
 }
 
 struct TodoItem {
@@ -38,17 +29,30 @@ fn add_todo(todo: &mut Vec<TodoItem>) {
 }
 
 fn list_todo(todo: &Vec<TodoItem>) {
-    for todo_item in todo {
+    for (index, todo_item) in todo.iter().enumerate() {
         if todo_item.completed {
-            println!("{} status: done", todo_item.note);
+            print!("{}. {} status: done", index + 1, todo_item.note);
         } else {
-            println!("{} status: not done", todo_item.note);
+            print!("{}. {} status: not done", index + 1, todo_item.note);
         }
+        println!(); // Add a newline after printing all todo items
     }
 }
 
-fn mark_todo_as_done() {
-    println!("mark todo as done");
+fn mark_todo_as_done(todo: &mut Vec<TodoItem>) {
+    list_todo(&todo);
+    println!("Input number todo to mark todo as done");
+
+    let input = input_user();
+
+    let input: usize = input.trim().parse().unwrap();
+
+    if let Some(TodoItem) = todo.get_mut(input - 1) {
+        TodoItem.completed = true;
+        println!("Successfully edit todo");
+    } else {
+        println!("Todo with number {} is not found", input);
+    }
 }
 
 fn remove_todo() {
@@ -74,7 +78,8 @@ fn main() {
                     add_todo(&mut todo);
                 }
                 "list" => list_todo(&todo),
-                "done" => mark_todo_as_done(),
+                "done" => mark_todo_as_done(&mut todo),
+                "count-todo" => count_todo(&todo),
                 "remove" => remove_todo(),
                 "quit" => break,
                 _ => println!("unknown command"),
