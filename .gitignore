@@ -11,3 +11,5 @@ doc/
 # Ignore hidden temporary files
 **/*.swp
 **/*.swo
+
+*.db
